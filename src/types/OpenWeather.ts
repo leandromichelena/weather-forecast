@@ -146,3 +146,12 @@ export interface OpenWeatherForecastResponse {
   list: OpenWeatherForecastItem[];
   city: OpenWeatherForecastCity;
 }
+
+export interface OpenWeatherErrorResponse {
+  message?: string;
+}
+
+export interface OpenWeatherForecastDay {
+  date: string;
+  items: OpenWeatherForecastResponse["list"];
+}

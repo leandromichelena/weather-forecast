@@ -1,41 +1,19 @@
 "use client";
 
 import { Label, ListBox, Select } from "@heroui/react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import type { Key } from "@heroui/react";
 
 export default function Home() {
-  const [weatherData, setWeatherData] = useState("");
+  const router = useRouter();
 
-  const fetchCurrentWeather = async (id: Key | null) => {
+  const openCurrentWeather = (id: Key | null) => {
     if (id == null) {
       return;
     }
 
-    setWeatherData("Loading...");
-
-    try {
-      const response = await fetch(
-        `/api/weather?id=${encodeURIComponent(String(id))}`,
-      );
-      const data = await response.json();
-
-      setWeatherData(JSON.stringify(data, null, 2));
-    } catch (error) {
-      setWeatherData(
-        JSON.stringify(
-          {
-            error:
-              error instanceof Error
-                ? error.message
-                : "Unable to fetch weather data",
-          },
-          null,
-          2,
-        ),
-      );
-    }
+    router.push(`/weather/${encodeURIComponent(String(id))}`);
   };
 
   return (
@@ -45,7 +23,7 @@ export default function Home() {
         <Select
           className="w-[256px]"
           placeholder="Select a city"
-          onChange={fetchCurrentWeather}
+          onChange={openCurrentWeather}
         >
           <Label>City</Label>
           <Select.Trigger>
@@ -69,9 +47,6 @@ export default function Home() {
             </ListBox>
           </Select.Popover>
         </Select>
-        <p className="whitespace-pre-wrap font-mono" aria-live="polite">
-          {weatherData}
-        </p>
       </main>
     </div>
   );
