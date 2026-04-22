@@ -36,6 +36,18 @@ export function formatVisibility(visibilityMeters: number, units: WeatherUnits) 
   })} km`;
 }
 
+export function formatPrecipitation(value: number) {
+  return `${formatNumber(value, {
+    maximumFractionDigits: 1,
+  })} mm`;
+}
+
+export function formatPop(value: number) {
+  return `${formatNumber(value * 100, {
+    maximumFractionDigits: 0,
+  })}%`;
+}
+
 export function formatNumber(
   value: number,
   options?: Intl.NumberFormatOptions,
