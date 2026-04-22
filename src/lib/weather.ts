@@ -8,6 +8,7 @@ import type {
   OpenWeatherForecastDay,
   OpenWeatherForecastResponse,
 } from "@/types/OpenWeather";
+import type { WeatherUnits } from "@/types/Weather";
 
 const APP_ID = process.env.APP_ID;
 
@@ -23,6 +24,7 @@ export class WeatherDataError extends Error {
 
 export async function getCurrentWeather(
   cityId: string,
+  units: WeatherUnits,
 ): Promise<OpenWeatherCurrentResponse> {
   if (!APP_ID) {
     throw new WeatherDataError("Missing APP_ID environment variable");
@@ -31,11 +33,12 @@ export async function getCurrentWeather(
   const url = new URL("https://api.openweathermap.org/data/2.5/weather");
   url.searchParams.set("id", cityId);
   url.searchParams.set("appid", APP_ID);
+  url.searchParams.set("units", units);
 
   const response = await fetch(url, {
     next: {
       revalidate: 300,
-      tags: [`openweather:weather:${cityId}`],
+      tags: [`openweather:weather:${cityId}:${units}`],
     },
   });
   const data = (await response.json()) as
@@ -58,6 +61,7 @@ export async function getCurrentWeather(
 
 export async function getFiveDayForecast(
   cityId: string,
+  units: WeatherUnits,
 ): Promise<OpenWeatherForecastResponse> {
   if (!APP_ID) {
     throw new WeatherDataError("Missing APP_ID environment variable");
@@ -66,11 +70,12 @@ export async function getFiveDayForecast(
   const url = new URL("https://api.openweathermap.org/data/2.5/forecast");
   url.searchParams.set("id", cityId);
   url.searchParams.set("appid", APP_ID);
+  url.searchParams.set("units", units);
 
   const response = await fetch(url, {
     next: {
       revalidate: 1800,
-      tags: [`openweather:forecast:${cityId}`],
+      tags: [`openweather:forecast:${cityId}:${units}`],
     },
   });
   const data = (await response.json()) as

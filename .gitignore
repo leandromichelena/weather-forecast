@@ -161,3 +161,4 @@ yarn-error.log*
 next-env.d.ts
 
 .codex
+.playwright-mcp

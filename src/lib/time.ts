@@ -1,4 +1,4 @@
-import type { CityDateTime } from "@/types/Time";
+import type { CityDateTime } from "@/types/Weather";
 
 export function getCityDateTimeFromUtc(
   utcDateTimeText: string,
@@ -10,7 +10,24 @@ export function getCityDateTimeFromUtc(
     throw new Error(`Invalid UTC date time: ${utcDateTimeText}`);
   }
 
-  const cityDate = new Date(utcDate.getTime() + timezoneOffsetSeconds * 1000);
+  return getCityDateTimeFromDate(utcDate, timezoneOffsetSeconds);
+}
+
+export function getCityDateTimeFromUnix(
+  unixTimestampSeconds: number,
+  timezoneOffsetSeconds: number,
+): CityDateTime {
+  return getCityDateTimeFromDate(
+    new Date(unixTimestampSeconds * 1000),
+    timezoneOffsetSeconds,
+  );
+}
+
+export function getCityDateTimeFromDate(
+  date: Date,
+  timezoneOffsetSeconds: number,
+): CityDateTime {
+  const cityDate = new Date(date.getTime() + timezoneOffsetSeconds * 1000);
   const cityDateTimeText = cityDate.toISOString().replace("T", " ");
 
   return {

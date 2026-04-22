@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 
+import { getWeatherUnitsFromCookie } from "@/lib/units-server";
 import {
   getFiveDayForecast,
   groupForecastByDay,
   WeatherDataError,
 } from "@/lib/weather";
+
+import type { WeatherUnits } from "@/types/Weather";
 
 interface ForecastPageProps {
   params: Promise<{
@@ -14,7 +17,8 @@ interface ForecastPageProps {
 
 export default async function ForecastPage({ params }: ForecastPageProps) {
   const { cityId } = await params;
-  const forecast = await getForecastOrNotFound(cityId);
+  const units = await getWeatherUnitsFromCookie();
+  const forecast = await getForecastOrNotFound(cityId, units);
   const days = groupForecastByDay(forecast);
 
   return (
@@ -28,9 +32,9 @@ export default async function ForecastPage({ params }: ForecastPageProps) {
   );
 }
 
-async function getForecastOrNotFound(cityId: string) {
+async function getForecastOrNotFound(cityId: string, units: WeatherUnits) {
   try {
-    return await getFiveDayForecast(cityId);
+    return await getFiveDayForecast(cityId, units);
   } catch (error) {
     if (error instanceof WeatherDataError && error.status === 404) {
       notFound();
