@@ -1,24 +1,11 @@
-import { Surface } from "@heroui/react";
-import {
-  ArrowDown,
-  ArrowUp,
-  Cloud,
-  CloudRainWind,
-  Eye,
-  MapPin,
-  Wind,
-} from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import Link from "next/link";
 
 import { CityLocalTime } from "@/components/city/CityLocalTime";
 import { TemperatureRangeItem } from "@/components/city/TemperatureRangeItem";
 import { WeatherDetail } from "@/components/city/WeatherDetail";
-import {
-  formatNumber,
-  formatTemperature,
-  formatVisibility,
-  formatWindSpeed,
-} from "@/lib/units";
+import { formatTemperature, getWeatherUnitsHref } from "@/lib/units";
+import { getCurrentWeatherDetails } from "@/lib/weather-detail-view";
 
 import type { OpenWeatherCurrentResponse } from "@/types/OpenWeather";
 import type { WeatherUnits } from "@/types/Weather";
@@ -33,12 +20,14 @@ export function CurrentWeatherSummary({
   units,
 }: CurrentWeatherSummaryProps) {
   const condition = weather.weather[0];
+  const details = getCurrentWeatherDetails(weather, units);
+  const forecastHref = getWeatherUnitsHref(
+    `/weather/${encodeURIComponent(String(weather.id))}/forecast`,
+    units,
+  );
 
   return (
-    <Surface
-      variant="secondary"
-      className="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-lg p-6 shadow-sm"
-    >
+    <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-lg bg-content1 p-6 shadow-sm">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-3xl font-semibold tracking-normal">
@@ -74,57 +63,23 @@ export function CurrentWeatherSummary({
         </div>
 
         <dl className="grid gap-3">
-          <WeatherDetail
-            icon={<Wind aria-hidden className="h-5 w-5" />}
-            label="Wind"
-            value={formatWindSpeed(weather.wind.speed, units)}
-          />
-          {weather.rain ? (
+          {details.map((detail) => (
             <WeatherDetail
-              icon={<CloudRainWind aria-hidden className="h-5 w-5" />}
-              label="Rain"
-              value={`${formatNumber(weather.rain["1h"], {
-                maximumFractionDigits: 1,
-              })} mm in the last hour`}
+              icon={detail.icon}
+              key={detail.label}
+              label={detail.label}
+              value={detail.value}
             />
-          ) : null}
-          {weather.snow ? (
-            <WeatherDetail
-              icon={<CloudRainWind aria-hidden className="h-5 w-5" />}
-              label="Snow"
-              value={`${formatNumber(weather.snow["1h"], {
-                maximumFractionDigits: 1,
-              })} mm in the last hour`}
-            />
-          ) : null}
-          {weather.clouds.all > 0 ? (
-            <WeatherDetail
-              icon={<Cloud aria-hidden className="h-5 w-5" />}
-              label="Clouds"
-              value={`${weather.clouds.all}% coverage`}
-            />
-          ) : null}
-          {weather.visibility ? (
-            <WeatherDetail
-              icon={<Eye aria-hidden className="h-5 w-5" />}
-              label="Visibility"
-              value={formatVisibility(weather.visibility, units)}
-            />
-          ) : null}
-          <WeatherDetail
-            icon={<MapPin aria-hidden className="h-5 w-5" />}
-            label="Coordinates"
-            value={`${weather.coord.lat.toFixed(2)}, ${weather.coord.lon.toFixed(2)}`}
-          />
+          ))}
         </dl>
       </section>
 
       <Link
-        href={`/weather/${encodeURIComponent(String(weather.id))}/forecast`}
-        className="w-fit text-sm font-medium text-primary underline-offset-4 hover:underline"
+        href={forecastHref}
+        className="w-fit rounded-md text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         View 5-day forecast
       </Link>
-    </Surface>
+    </section>
   );
 }

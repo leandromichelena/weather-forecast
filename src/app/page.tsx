@@ -1,53 +1,26 @@
-"use client";
+import { CitySelector } from "@/components/city/CitySelector";
 
-import { Label, ListBox, Select } from "@heroui/react";
-import { useRouter } from "next/navigation";
-
-import type { Key } from "@heroui/react";
+const cities = [
+  { id: "6167865", name: "Toronto" },
+  { id: "6094817", name: "Ottawa" },
+  { id: "1850147", name: "Tokyo" },
+];
 
 export default function Home() {
-  const router = useRouter();
-
-  const openCurrentWeather = (id: Key | null) => {
-    if (id == null) {
-      return;
-    }
-
-    router.push(`/weather/${encodeURIComponent(String(id))}`);
-  };
-
   return (
-    <div>
-      <main>
-        <h1 className="">Weather Forecast</h1>
-        <Select
-          className="w-[256px]"
-          placeholder="Select a city"
-          onChange={openCurrentWeather}
-        >
-          <Label>City</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="6167865" textValue="Toronto">
-                Toronto
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="6094817" textValue="Ottawa">
-                Ottawa
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="1850147" textValue="Tokyo">
-                Tokyo
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
-          </Select.Popover>
-        </Select>
-      </main>
-    </div>
+    <main className="mx-auto flex min-h-svh w-full max-w-4xl flex-col justify-center gap-6 px-6 py-12">
+      <div className="max-w-xl">
+        <p className="text-sm font-medium uppercase tracking-wide text-foreground-500">
+          Weather lookup
+        </p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-normal">
+          Weather Forecast
+        </h1>
+        <p className="mt-3 text-base text-foreground-500">
+          Select a city to view current conditions and the 5-day forecast.
+        </p>
+      </div>
+      <CitySelector cities={cities} />
+    </main>
   );
 }

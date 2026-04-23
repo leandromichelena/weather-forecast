@@ -1,10 +1,12 @@
-import { Surface } from "@heroui/react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ForecastDayAccordion } from "@/components/city/ForecastDayAccordion";
 import { UnitsToggle } from "@/components/ui/UnitsToggle";
-import { getWeatherUnitsFromCookie } from "@/lib/units-server";
+import {
+  getWeatherUnitsFromSearchParam,
+  getWeatherUnitsHref,
+} from "@/lib/units";
 import {
   getFiveDayForecast,
   groupForecastByDay,
@@ -17,20 +19,30 @@ interface ForecastPageProps {
   params: Promise<{
     cityId: string;
   }>;
+  searchParams: Promise<{
+    units?: string | string[];
+  }>;
 }
 
-export default async function ForecastPage({ params }: ForecastPageProps) {
+export default async function ForecastPage({
+  params,
+  searchParams,
+}: ForecastPageProps) {
   const { cityId } = await params;
-  const units = await getWeatherUnitsFromCookie();
+  const { units: unitsParam } = await searchParams;
+  const units = getWeatherUnitsFromSearchParam(
+    Array.isArray(unitsParam) ? unitsParam[0] : unitsParam,
+  );
   const forecast = await getForecastOrNotFound(cityId, units);
   const days = groupForecastByDay(forecast);
+  const currentHref = getWeatherUnitsHref(
+    `/weather/${encodeURIComponent(cityId)}`,
+    units,
+  );
 
   return (
-    <main className="p-6">
-      <Surface
-        variant="secondary"
-        className="mx-auto flex w-full max-w-5xl flex-col gap-6 rounded-lg p-6 shadow-sm"
-      >
+    <main className="px-6 py-6">
+      <section className="mx-auto flex w-full max-w-5xl flex-col gap-6 rounded-lg bg-content1 p-6 shadow-sm">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-normal">
@@ -50,12 +62,12 @@ export default async function ForecastPage({ params }: ForecastPageProps) {
         />
 
         <Link
-          href={`/weather/${encodeURIComponent(cityId)}`}
-          className="w-fit text-sm font-medium text-primary underline-offset-4 hover:underline"
+          href={currentHref}
+          className="w-fit rounded-md text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           View current weather
         </Link>
-      </Surface>
+      </section>
     </main>
   );
 }

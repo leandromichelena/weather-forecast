@@ -6,6 +6,28 @@ export function isWeatherUnits(value: string | null): value is WeatherUnits {
   return value === "metric" || value === "imperial";
 }
 
+export function getWeatherUnitsFromSearchParam(
+  value: string | null | undefined,
+): WeatherUnits {
+  const unit = value ?? null;
+
+  if (isWeatherUnits(unit)) {
+    return unit;
+  }
+
+  return "metric";
+}
+
+export function getWeatherUnitsHref(pathname: string, units: WeatherUnits) {
+  if (units === "metric") {
+    return pathname;
+  }
+
+  const searchParams = new URLSearchParams({ units });
+
+  return `${pathname}?${searchParams.toString()}`;
+}
+
 export function getTemperatureUnitLabel(units: WeatherUnits) {
   return units === "metric" ? "C" : "F";
 }
@@ -24,7 +46,10 @@ export function formatWindSpeed(value: number, units: WeatherUnits) {
   })} ${getWindSpeedUnitLabel(units)}`;
 }
 
-export function formatVisibility(visibilityMeters: number, units: WeatherUnits) {
+export function formatVisibility(
+  visibilityMeters: number,
+  units: WeatherUnits,
+) {
   if (units === "imperial") {
     return `${formatNumber(visibilityMeters / 1609.344, {
       maximumFractionDigits: 1,

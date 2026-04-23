@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { WeatherNav } from "@/components/city/WeatherNav";
 
 interface WeatherLayoutProps {
   children: React.ReactNode;
@@ -12,17 +12,10 @@ export default async function WeatherLayout({
   params,
 }: WeatherLayoutProps) {
   const { cityId } = await params;
-  const encodedCityId = encodeURIComponent(cityId);
 
   return (
-    <div>
-      <nav>
-        <Link href="/">Cities</Link>
-        {" | "}
-        <Link href={`/weather/${encodedCityId}`}>Current</Link>
-        {" | "}
-        <Link href={`/weather/${encodedCityId}/forecast`}>Forecast</Link>
-      </nav>
+    <div className="min-h-svh">
+      <WeatherNav cityId={cityId} />
       {children}
     </div>
   );

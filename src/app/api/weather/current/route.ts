@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
 
-import { isWeatherUnits } from "@/lib/units";
-import { getWeatherUnitsFromCookie } from "@/lib/units-server";
+import { getWeatherUnitsFromSearchParam, isWeatherUnits } from "@/lib/units";
 import { getCurrentWeather, WeatherDataError } from "@/lib/weather";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const cityId = searchParams.get("cityId");
   const unitParam = searchParams.get("units");
-  const units = isWeatherUnits(unitParam)
-    ? unitParam
-    : await getWeatherUnitsFromCookie();
+  const units = getWeatherUnitsFromSearchParam(unitParam);
 
   if (!cityId) {
     return NextResponse.json({ error: "Missing cityId" }, { status: 400 });
+  }
+
+  if (unitParam !== null && !isWeatherUnits(unitParam)) {
+    return NextResponse.json({ error: "Invalid units" }, { status: 400 });
   }
 
   try {
@@ -23,7 +24,9 @@ export async function GET(request: Request) {
   } catch (error) {
     const status = error instanceof WeatherDataError ? error.status : 500;
     const message =
-      error instanceof Error ? error.message : "Unable to fetch current weather";
+      error instanceof Error
+        ? error.message
+        : "Unable to fetch current weather";
 
     return NextResponse.json({ error: message }, { status });
   }
