@@ -2,6 +2,7 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import Link from "next/link";
 
 import { CityLocalTime } from "@/components/city/CityLocalTime";
+import { DaylightArc } from "@/components/city/DaylightArc";
 import { TemperatureRangeItem } from "@/components/city/TemperatureRangeItem";
 import { WeatherDetail } from "@/components/city/WeatherDetail";
 import { formatTemperature, getWeatherUnitsHref } from "@/lib/units";
@@ -60,6 +61,12 @@ export function CurrentWeatherSummary({
               value={formatTemperature(weather.main.temp_min, units)}
             />
           </div>
+
+          <DaylightArc
+            sunriseUnixSeconds={weather.sys.sunrise}
+            sunsetUnixSeconds={weather.sys.sunset}
+            timezoneOffsetSeconds={weather.timezone}
+          />
         </div>
 
         <dl className="grid gap-3">
