@@ -4,8 +4,93 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-500: var(--foreground-500);
+  --color-foreground-600: var(--foreground-600);
+  --color-content1: var(--surface);
+  --color-divider: var(--separator);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --background: oklch(86.9% 0.005 56.366);
+  --foreground: oklch(21.6% 0.006 56.043);
+  --foreground-500: color-mix(in oklab, var(--foreground) 64%, transparent);
+  --foreground-600: color-mix(in oklab, var(--foreground) 76%, transparent);
+  --surface: color-mix(in oklab, var(--background) 60%, white 40%);
+  --surface-secondary: color-mix(in oklab, var(--background) 78%, white 22%);
+  --surface-tertiary: color-mix(
+    in oklab,
+    var(--background) 88%,
+    var(--foreground) 12%
+  );
+  --overlay: color-mix(in oklab, var(--background) 54%, white 46%);
+  --muted: color-mix(in oklab, var(--foreground) 56%, var(--background) 44%);
+  --default: color-mix(in oklab, var(--background) 82%, white 18%);
+  --default-foreground: var(--foreground);
+  --field-background: color-mix(in oklab, var(--background) 58%, white 42%);
+  --field-foreground: var(--foreground);
+  --field-placeholder: var(--foreground-500);
+  --segment: color-mix(in oklab, var(--background) 64%, white 36%);
+  --segment-foreground: var(--foreground);
+  --separator: color-mix(in oklab, var(--foreground) 16%, transparent);
+  --border: color-mix(in oklab, var(--foreground) 18%, transparent);
+  --accent: oklch(26.8% 0.007 34.298);
+  --accent-foreground: oklch(98.5% 0.001 106.423);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --background: oklch(20.8% 0.042 265.755);
+  --foreground: oklch(96.8% 0.007 247.896);
+  --foreground-500: color-mix(in oklab, var(--foreground) 64%, transparent);
+  --foreground-600: color-mix(in oklab, var(--foreground) 76%, transparent);
+  --surface: color-mix(in oklab, var(--background) 88%, white 12%);
+  --surface-secondary: color-mix(in oklab, var(--background) 80%, white 20%);
+  --surface-tertiary: color-mix(in oklab, var(--background) 72%, white 28%);
+  --overlay: color-mix(in oklab, var(--background) 84%, white 16%);
+  --muted: color-mix(in oklab, var(--foreground) 68%, var(--background) 32%);
+  --default: color-mix(in oklab, var(--background) 76%, white 24%);
+  --default-foreground: var(--foreground);
+  --field-background: color-mix(in oklab, var(--background) 84%, white 16%);
+  --field-foreground: var(--foreground);
+  --field-placeholder: var(--foreground-500);
+  --segment: color-mix(in oklab, var(--background) 66%, white 34%);
+  --segment-foreground: var(--foreground);
+  --separator: color-mix(in oklab, var(--foreground) 18%, transparent);
+  --border: color-mix(in oklab, var(--foreground) 20%, transparent);
+  --accent: oklch(86.9% 0.022 252.894);
+  --accent-foreground: oklch(20.8% 0.042 265.755);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: oklch(20.8% 0.042 265.755);
+    --foreground: oklch(96.8% 0.007 247.896);
+    --foreground-500: color-mix(in oklab, var(--foreground) 64%, transparent);
+    --foreground-600: color-mix(in oklab, var(--foreground) 76%, transparent);
+    --surface: color-mix(in oklab, var(--background) 88%, white 12%);
+    --surface-secondary: color-mix(in oklab, var(--background) 80%, white 20%);
+    --surface-tertiary: color-mix(in oklab, var(--background) 72%, white 28%);
+    --overlay: color-mix(in oklab, var(--background) 84%, white 16%);
+    --muted: color-mix(in oklab, var(--foreground) 68%, var(--background) 32%);
+    --default: color-mix(in oklab, var(--background) 76%, white 24%);
+    --default-foreground: var(--foreground);
+    --field-background: color-mix(in oklab, var(--background) 84%, white 16%);
+    --field-foreground: var(--foreground);
+    --field-placeholder: var(--foreground-500);
+    --segment: color-mix(in oklab, var(--background) 66%, white 34%);
+    --segment-foreground: var(--foreground);
+    --separator: color-mix(in oklab, var(--foreground) 18%, transparent);
+    --border: color-mix(in oklab, var(--foreground) 20%, transparent);
+    --accent: oklch(86.9% 0.022 252.894);
+    --accent-foreground: oklch(20.8% 0.042 265.755);
+  }
 }
 
 body {

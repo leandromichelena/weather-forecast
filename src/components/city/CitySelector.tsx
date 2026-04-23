@@ -27,6 +27,7 @@ export function CitySelector({ cities }: CitySelectorProps) {
 
   return (
     <Select
+      aria-label="Select a city"
       className="w-full max-w-xs"
       placeholder="Select..."
       onChange={openCurrentWeather}
