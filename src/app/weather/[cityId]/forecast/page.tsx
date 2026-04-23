@@ -41,20 +41,24 @@ export default async function ForecastPage({
   );
 
   return (
-    <main className="px-6 py-6">
-      <section className="mx-auto flex w-full max-w-5xl flex-col gap-6 rounded-lg bg-content1 p-6 shadow-sm">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold tracking-normal">
-              5-day Forecast: {forecast.city.name}
-            </h1>
-            <p className="mt-1 text-sm text-foreground-500">
-              Three-hour forecasts grouped by city-local day.
-            </p>
-          </div>
-          <UnitsToggle units={units} />
-        </header>
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-normal">
+            {forecast.city.name}
+          </h1>
+          <h2 className="text-2xl font-normal tracking-tighter">
+            {" "}
+            5-day forecast
+          </h2>
+          <p className="mt-1 text-sm text-foreground-500">
+            Three-hour forecasts grouped by day.
+          </p>
+        </div>
+        <UnitsToggle units={units} />
+      </header>
 
+      <section className="flex flex-col gap-5" aria-label="Forecast days">
         <ForecastDayAccordion
           days={days}
           timezoneOffsetSeconds={forecast.city.timezone}

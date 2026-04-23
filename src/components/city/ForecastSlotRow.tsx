@@ -9,13 +9,8 @@ import type { WeatherUnits } from "@/types/Weather";
 type ForecastSlot = OpenWeatherForecastResponse["list"][number];
 
 const forecastDetailsGridClassName = [
-  "grid gap-3 sm:grid-cols-2 xl:grid-cols-3",
-  "[&>*]:border-b [&>*]:border-divider [&>*:last-child]:border-b-0",
-  "sm:[&>*:nth-child(2n+1):nth-last-child(-n+2)]:border-b-0",
-  "sm:[&>*:nth-child(2n+1):nth-last-child(-n+2)~*]:border-b-0",
-  "xl:[&>*]:border-b",
-  "xl:[&>*:nth-child(3n+1):nth-last-child(-n+3)]:border-b-0",
-  "xl:[&>*:nth-child(3n+1):nth-last-child(-n+3)~*]:border-b-0",
+  "grid gap-x-6 gap-y-1 sm:grid-cols-2 xl:grid-cols-3",
+  "[&>*]:py-2",
 ].join(" ");
 
 interface ForecastSlotRowProps {
@@ -37,7 +32,7 @@ export function ForecastSlotRow({
   const details = getForecastSlotDetails(item, units);
 
   return (
-    <article className="grid gap-4 rounded-md border border-divider p-4 md:grid-cols-[120px_minmax(0,1fr)]">
+    <article className="grid gap-4 rounded-md bg-content1 p-4 md:grid-cols-[120px_minmax(0,1fr)]">
       <div>
         <p className="text-lg font-semibold">{cityTime.displayTime}</p>
       </div>

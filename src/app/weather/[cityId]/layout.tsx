@@ -1,22 +1,7 @@
-import { WeatherNav } from "@/components/city/WeatherNav";
-
 interface WeatherLayoutProps {
   children: React.ReactNode;
-  params: Promise<{
-    cityId: string;
-  }>;
 }
 
-export default async function WeatherLayout({
-  children,
-  params,
-}: WeatherLayoutProps) {
-  const { cityId } = await params;
-
-  return (
-    <div className="min-h-svh">
-      <WeatherNav cityId={cityId} />
-      {children}
-    </div>
-  );
+export default function WeatherLayout({ children }: WeatherLayoutProps) {
+  return <div className="min-h-[calc(100svh-5rem)]">{children}</div>;
 }

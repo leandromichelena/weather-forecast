@@ -26,8 +26,8 @@ export default async function CurrentWeatherPage({
   const weather = await getCurrentWeatherOrNotFound(cityId, units);
 
   return (
-    <main className="flex flex-col gap-4 px-6 py-6">
-      <div className="mx-auto flex w-full max-w-4xl justify-end">
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-6 py-6">
+      <div className="flex justify-end">
         <UnitsToggle units={units} />
       </div>
       <CurrentWeatherSummary weather={weather} units={units} />

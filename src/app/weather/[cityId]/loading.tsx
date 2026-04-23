@@ -1,12 +1,15 @@
 export default function CurrentWeatherLoading() {
   return (
-    <main className="flex flex-col gap-4 px-6 py-6" aria-live="polite">
-      <div className="mx-auto flex w-full max-w-4xl justify-end">
+    <main
+      className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-6 py-6"
+      aria-live="polite"
+    >
+      <div className="flex justify-end">
         <div className="h-8 w-36 rounded-md bg-content2" />
       </div>
       <section
         aria-label="Loading current weather"
-        className="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-lg bg-content1 p-6 shadow-sm"
+        className="flex w-full flex-col gap-8 rounded-lg border border-divider bg-content1 p-6"
         role="status"
       >
         <div>

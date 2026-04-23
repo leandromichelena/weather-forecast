@@ -2,13 +2,21 @@
 
 import { ThemeProvider } from "next-themes";
 
-export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
+import type { ThemePreference } from "@/lib/theme";
+
+interface ProvidersProps {
+  children: React.ReactNode;
+  defaultTheme: ThemePreference;
+}
+
+export function Providers({ children, defaultTheme }: Readonly<ProvidersProps>) {
   return (
     <ThemeProvider
       attribute="data-theme"
-      defaultTheme="system"
+      defaultTheme={defaultTheme}
       disableTransitionOnChange
       enableSystem
+      storageKey="weather-theme"
     >
       {children}
     </ThemeProvider>

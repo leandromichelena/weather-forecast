@@ -6,10 +6,10 @@ interface ForecastErrorProps {
 
 export default function ForecastError({ reset }: ForecastErrorProps) {
   return (
-    <main className="px-6 py-6">
+    <main className="mx-auto w-full max-w-5xl px-6 py-6">
       <section
         aria-labelledby="forecast-error-title"
-        className="mx-auto flex w-full max-w-5xl flex-col gap-4 rounded-lg bg-content1 p-6 shadow-sm"
+        className="flex w-full flex-col gap-4 rounded-lg border border-divider bg-content1 p-6"
       >
         <h1
           className="text-2xl font-semibold tracking-normal"
