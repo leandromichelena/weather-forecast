@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weather Forecast
 
-## Getting Started
+A weather dashboard built with Next.js and OpenWeather. The app renders current conditions and a 5-day forecast with server-side data fetching, cached external API calls, unit switching, theme switching, and custom animated SVG weather icons.
 
-First, run the development server:
+## Features
+
+- Current weather dashboard
+- Five days forecast broken down by accordions
+- 3 hour forecasts within each day with weather conditions
+- Custom made SVG weather icons with loopable animations
+- Theme switching
+- Units switching
+- Mobile responsive layout
+
+## Local Setup
+
+### Prerequisites
+
+- Node.js 20 or newer
+- An OpenWeather API key
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Create the environment file
+
+Create a `.env` file in the project root:
+
+```env
+APP_ID=your_openweather_api_key
+```
+
+`APP_ID` is required by the server-side weather fetchers in `src/lib/weather.ts`.
+
+### 3. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Available scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` starts the Next.js development server
+- `npm run build` creates a production build
+- `npm run start` runs the production build
+- `npm run lint` runs ESLint
+- `npm run lint-fix` runs ESLint with auto-fixes
 
-## Learn More
+## SSR And Caching
 
-To learn more about Next.js, take a look at the following resources:
+This app uses server-rendered pages in the Next.js App Router for both the current weather view and the 5-day forecast view:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Current weather page: `src/app/weather/[cityId]/page.tsx`
+- Forecast page: `src/app/weather/[cityId]/forecast/page.tsx`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+OpenWeather API requests are performed on the server in `src/lib/weather.ts` using Next.js `fetch` caching:
 
-## Deploy on Vercel
+- Current weather requests revalidate every 300 seconds
+- Forecast requests revalidate every 1800 seconds
+- Requests are tagged per city and unit system for cache-aware invalidation patterns
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+That means the UI benefits from SSR for initial page load while avoiding unnecessary repeated requests to the external API.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stack
+
+### Frameworks and runtime
+
+- Next.js 16
+- React 19
+- TypeScript 5
+
+### UI and styling
+
+- HeroUI
+- Tailwind CSS 4
+- Lucide React icons
+- Next Themes
