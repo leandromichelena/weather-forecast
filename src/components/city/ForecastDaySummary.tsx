@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
 
+import { WeatherConditionIcon } from "@/components/weather-icons/WeatherConditionIcon";
 import { getForecastDaySummaryView } from "@/lib/forecast-view";
 
 import type { OpenWeatherForecastDay } from "@/types/OpenWeather";
@@ -15,11 +16,18 @@ export function ForecastDaySummary({ day, units }: ForecastDaySummaryProps) {
 
   return (
     <div className="flex w-full flex-col gap-1 text-left sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <span className="text-base font-medium">{summary.label}</span>
-        <p className="text-sm capitalize text-foreground-500">
-          {summary.description}
-        </p>
+      <div className="flex items-center gap-3">
+        <WeatherConditionIcon
+          condition={summary.condition}
+          size="sm"
+          className="text-foreground"
+        />
+        <div>
+          <span className="text-base font-medium">{summary.label}</span>
+          <p className="text-sm capitalize text-foreground-500">
+            {summary.description}
+          </p>
+        </div>
       </div>
       <div className="flex items-center gap-3 text-sm text-foreground-500">
         <span className="inline-flex items-center gap-1">

@@ -98,3 +98,92 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+.weather-icon {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  overflow: visible;
+  color: inherit;
+  flex-shrink: 0;
+  --weather-icon-cloud-fill: color-mix(
+    in oklab,
+    var(--surface-secondary) 78%,
+    var(--background) 22%
+  );
+  --weather-icon-stroke-heavy: 5px;
+  --weather-icon-stroke-medium: 3.5px;
+  --weather-icon-stroke-light: 2.25px;
+}
+
+.weather-icon--sm {
+  width: 3rem;
+  height: 3rem;
+  --weather-icon-stroke-heavy: 4px;
+  --weather-icon-stroke-medium: 2.75px;
+  --weather-icon-stroke-light: 1.85px;
+}
+
+.weather-icon--md {
+  width: 4.25rem;
+  height: 4.25rem;
+  --weather-icon-stroke-heavy: 5px;
+  --weather-icon-stroke-medium: 3.5px;
+  --weather-icon-stroke-light: 2.25px;
+}
+
+.weather-icon--lg {
+  width: clamp(7rem, 16vw, 9.5rem);
+  height: clamp(7rem, 16vw, 9.5rem);
+  --weather-icon-stroke-heavy: 5.75px;
+  --weather-icon-stroke-medium: 3.85px;
+  --weather-icon-stroke-light: 2.45px;
+}
+
+.weather-icon__stroke-heavy,
+.weather-icon__stroke-medium,
+.weather-icon__stroke-light {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.weather-icon__stroke-heavy {
+  stroke-width: var(--weather-icon-stroke-heavy);
+}
+
+.weather-icon__stroke-medium {
+  stroke-width: var(--weather-icon-stroke-medium);
+}
+
+.weather-icon__stroke-light {
+  stroke-width: var(--weather-icon-stroke-light);
+}
+
+.weather-icon__cloud-fill {
+  fill: var(--weather-icon-cloud-fill);
+  stroke: none;
+}
+
+@media (max-width: 640px) {
+  .weather-icon--sm {
+    --weather-icon-stroke-heavy: 3.5px;
+    --weather-icon-stroke-medium: 2.4px;
+    --weather-icon-stroke-light: 1.6px;
+  }
+
+  .weather-icon--md {
+    --weather-icon-stroke-heavy: 4.5px;
+    --weather-icon-stroke-medium: 3px;
+    --weather-icon-stroke-light: 2px;
+  }
+
+  .weather-icon--lg {
+    width: 6.75rem;
+    height: 6.75rem;
+    --weather-icon-stroke-heavy: 5px;
+    --weather-icon-stroke-medium: 3.35px;
+    --weather-icon-stroke-light: 2.15px;
+  }
+}

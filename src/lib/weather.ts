@@ -10,8 +10,6 @@ import type {
 } from "@/types/OpenWeather";
 import type { WeatherUnits } from "@/types/Weather";
 
-const APP_ID = process.env.APP_ID;
-
 export class WeatherDataError extends Error {
   status: number;
 
@@ -26,6 +24,7 @@ export async function getCurrentWeather(
   cityId: string,
   units: WeatherUnits,
 ): Promise<OpenWeatherCurrentResponse> {
+  const APP_ID = process.env.APP_ID;
   if (!APP_ID) {
     throw new WeatherDataError("Missing APP_ID environment variable");
   }
@@ -63,6 +62,7 @@ export async function getFiveDayForecast(
   cityId: string,
   units: WeatherUnits,
 ): Promise<OpenWeatherForecastResponse> {
+  const APP_ID = process.env.APP_ID;
   if (!APP_ID) {
     throw new WeatherDataError("Missing APP_ID environment variable");
   }

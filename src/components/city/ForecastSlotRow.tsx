@@ -1,4 +1,5 @@
 import { WeatherDetail } from "@/components/city/WeatherDetail";
+import { WeatherConditionIcon } from "@/components/weather-icons/WeatherConditionIcon";
 import { getCityDateTimeFromUtc } from "@/lib/time";
 import { formatTemperature } from "@/lib/units";
 import { getForecastSlotDetails } from "@/lib/weather-detail-view";
@@ -24,10 +25,7 @@ export function ForecastSlotRow({
   timezoneOffsetSeconds,
   units,
 }: ForecastSlotRowProps) {
-  const cityTime = getCityDateTimeFromUtc(
-    item.dt_txt,
-    timezoneOffsetSeconds,
-  );
+  const cityTime = getCityDateTimeFromUtc(item.dt_txt, timezoneOffsetSeconds);
   const condition = item.weather[0];
   const details = getForecastSlotDetails(item, units);
 
@@ -38,16 +36,23 @@ export function ForecastSlotRow({
       </div>
 
       <div className="grid gap-4">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-          <p className="text-xl font-semibold">
-            {formatTemperature(item.main.temp, units)}
-          </p>
-          <p className="text-sm capitalize text-foreground-500">
-            {condition.description}
-          </p>
-          <p className="text-sm text-foreground-500">
-            Feels like {formatTemperature(item.main.feels_like, units)}
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
+            <p className="text-xl font-semibold">
+              {formatTemperature(item.main.temp, units)}
+            </p>
+            <p className="text-sm text-foreground-500">
+              Feels like {formatTemperature(item.main.feels_like, units)}
+            </p>
+            <WeatherConditionIcon
+              condition={condition}
+              size="sm"
+              className="shrink-0 text-foreground"
+            />
+            <p className="text-sm capitalize text-foreground-500">
+              {condition.description}
+            </p>
+          </div>
         </div>
 
         <dl className={forecastDetailsGridClassName}>

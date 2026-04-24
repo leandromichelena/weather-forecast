@@ -9,6 +9,7 @@ interface DaylightArcProps {
   timezoneOffsetSeconds: number;
   sunriseUnixSeconds: number;
   sunsetUnixSeconds: number;
+  className?: string;
 }
 
 const SVG_WIDTH = 280;
@@ -24,6 +25,7 @@ export function DaylightArc({
   timezoneOffsetSeconds,
   sunriseUnixSeconds,
   sunsetUnixSeconds,
+  className,
 }: DaylightArcProps) {
   const currentDate = useSyncExternalStore(
     subscribeToCurrentDate,
@@ -55,9 +57,13 @@ export function DaylightArc({
     currentUnixSeconds !== null &&
     currentUnixSeconds >= sunriseUnixSeconds &&
     currentUnixSeconds <= sunsetUnixSeconds;
+  const progressArcClassName =
+    currentUnixSeconds !== null && currentUnixSeconds > sunsetUnixSeconds
+      ? "text-foreground-500"
+      : "text-warning";
 
   return (
-    <div className="mt-8 w-full max-w-70">
+    <div className={["w-full max-w-70", className].filter(Boolean).join(" ")}>
       <svg
         aria-hidden
         className="h-auto w-full overflow-visible"
@@ -90,7 +96,7 @@ export function DaylightArc({
             strokeLinecap="round"
             strokeWidth="4"
             strokeDasharray={`${daylightProgress} 1`}
-            className="text-warning"
+            className={progressArcClassName}
           />
         ) : null}
         {showMarker ? (

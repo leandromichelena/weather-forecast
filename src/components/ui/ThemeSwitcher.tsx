@@ -18,7 +18,11 @@ const subscribe = () => () => undefined;
 const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-export function ThemeSwitcher() {
+interface ThemeSwitcherProps {
+  className?: string;
+}
+
+export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
   const { setTheme, theme } = useTheme();
   const isMounted = useSyncExternalStore(
     subscribe,
@@ -46,6 +50,7 @@ export function ThemeSwitcher() {
   return (
     <ToggleButtonGroup
       aria-label="Theme preference"
+      className={className}
       selectedKeys={new Set([selectedTheme])}
       selectionMode="single"
       disallowEmptySelection

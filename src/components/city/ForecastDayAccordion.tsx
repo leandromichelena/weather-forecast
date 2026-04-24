@@ -30,15 +30,17 @@ export function ForecastDayAccordion({
             </Accordion.Trigger>
           </Accordion.Heading>
           <Accordion.Panel>
-            <Accordion.Body className="grid gap-3">
-              {day.items.map((item) => (
-                <ForecastSlotRow
-                  item={item}
-                  key={item.dt}
-                  timezoneOffsetSeconds={timezoneOffsetSeconds}
-                  units={units}
-                />
-              ))}
+            <Accordion.Body>
+              <div className="divide-y divide-divider *:py-3 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+                {day.items.map((item) => (
+                  <ForecastSlotRow
+                    item={item}
+                    key={item.dt}
+                    timezoneOffsetSeconds={timezoneOffsetSeconds}
+                    units={units}
+                  />
+                ))}
+              </div>
             </Accordion.Body>
           </Accordion.Panel>
         </Accordion.Item>
